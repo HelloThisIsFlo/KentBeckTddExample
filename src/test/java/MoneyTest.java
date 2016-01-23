@@ -7,6 +7,18 @@ import static org.junit.Assert.*;
  * Test for the Money classes
  */
 public class MoneyTest {
+    
+    private static final Expression FIVE_BUCKS = Money.dollar(5);
+    private static final Expression TEN_FRANCS= Money.franc(10);
+    private Bank bank;
+
+    @Before
+    public void setUp() throws Exception {
+        bank = new Bank();
+
+        // Set up the bank
+        bank.addRate("CHF", "USD", 2);
+    }
 
     @Test
     public void testMultiplication() throws Exception {
@@ -58,24 +70,18 @@ public class MoneyTest {
         Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
 
         // Reduce the sum
-        Bank bank = new Bank();
         Money result = bank.reduce(sum, "USD");
         assertEquals(Money.dollar(7), result);
     }
 
     @Test
     public void testReduceMoney() throws Exception {
-        Bank bank = new Bank();
         Money reduced = bank.reduce(Money.dollar(3), "USD");
         assertEquals(Money.dollar(3), reduced);
     }
 
     @Test
     public void testReduceMoneyDifferentCurrency() throws Exception {
-        // Set up rate for CHF <-> USD
-        Bank bank = new Bank();
-        bank.addRate("CHF", "USD", 2);
-
         // Reduce 2CHF to $1
         Money result = bank.reduce(Money.franc(2), "USD");
         assertEquals(result, Money.dollar(1));
@@ -84,9 +90,29 @@ public class MoneyTest {
     @Test
     public void testIdentityRate() throws Exception {
         // This was a surprise when refactoring, so create a new test before implementing the functionality
-        Bank bank = new Bank();
         assertEquals(1, bank.rate("USD", "USD"));
     }
 
-    
+    @Test
+    public void testMixedAddition() throws Exception {
+        // Reduce sum of 2 Money with different rates
+        Money result = bank.reduce(FIVE_BUCKS.plus(TEN_FRANCS), "USD");
+        assertEquals(Money.dollar(10), result);
+    }
+
+    @Test
+    public void testSumPlusMoney() throws Exception {
+        // Make sum of sum + FIVE_BUCKS : ($5 + 10CHF) + $5 = $10 + $5 = $15
+        Expression sum = new Sum(FIVE_BUCKS, TEN_FRANCS).plus(FIVE_BUCKS);
+        Money result = sum.reduce(bank, "USD");
+        assertEquals(result, Money.dollar(15));
+    }
+
+    @Test
+    public void testSumTimes() throws Exception {
+        Sum sum = new Sum(FIVE_BUCKS, TEN_FRANCS); //$10
+        Money result = bank.reduce(sum.times(3), "USD"); //$30
+        assertEquals(result, Money.dollar(30));
+    }
+
 }

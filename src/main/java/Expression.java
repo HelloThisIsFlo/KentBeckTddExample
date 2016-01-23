@@ -13,4 +13,18 @@ public interface Expression {
      * @return Money representing the result of the expression
      */
     Money reduce(Bank bank, String toCurrency);
+
+    /**
+     * Add an Expression to the current Expression
+     * @param toAdd Expression to add
+     * @return Result of the sum
+     */
+    Expression plus(Expression toAdd);
+
+    /**
+     * Multiply this expression by a multiplier
+     * @param multiplier Multiplication factor
+     * @return Resulting Expression
+     */
+    Expression times(int multiplier);
 }

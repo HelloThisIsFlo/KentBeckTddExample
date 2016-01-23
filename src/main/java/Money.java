@@ -26,11 +26,13 @@ public class Money implements Expression {
                 && currency().equals(money.currency());
     }
 
-    Money times(int multiplier) {
+    @Override
+    public Money times(int multiplier) {
         return new Money(this.amount * multiplier, this.currency);
     }
 
-    Expression plus(Money toAdd) {
+    @Override
+    public Expression plus(Expression toAdd) {
         return new Sum(this, toAdd);
     }
 
