@@ -14,10 +14,20 @@ public class DollarTest {
     }
 
     @Test
-    public void testPlaceholder() throws Exception {
-        int i = 1;
+    public void testMultiplication() throws Exception {
+        Dollar five = new Dollar(5);
 
-        assertEquals(i, 1);
+        Dollar product = five.times(2);
+        assertEquals(10, product.amount);
 
+        product = five.times(3);
+        assertEquals(15, product.amount);
+
+    }
+
+    @Test
+    public void testEquality() throws Exception {
+        assertTrue(new Dollar(5).equals(new Dollar(5)));
+        assertFalse(new Dollar(5).equals(new Dollar(6)));
     }
 }
