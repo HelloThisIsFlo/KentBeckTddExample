@@ -30,6 +30,10 @@ public class Money {
         return new Money(this.amount * multiplier, this.currency);
     }
 
+    Money plus(Money toAdd) {
+        return new Money(amount + toAdd.amount, currency);
+    }
+
     String currency() {
         return currency;
     }
