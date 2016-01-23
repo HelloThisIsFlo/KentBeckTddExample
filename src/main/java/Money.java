@@ -1,7 +1,7 @@
 /**
  * Class to represent a currency
  */
-public abstract class Money {
+public class Money {
 
     protected int amount;
     protected String currency;
@@ -23,12 +23,19 @@ public abstract class Money {
     public boolean equals(Object obj) {
         Money money = (Money) obj;
         return amount == money.amount
-                && getClass() == money.getClass();
+                && currency().equals(money.currency());
     }
 
-    abstract Money times(int multiplier);
+    Money times(int multiplier) {
+        return new Money(this.amount * multiplier, this.currency);
+    }
 
     String currency() {
         return currency;
+    }
+
+    @Override
+    public String toString() {
+        return amount + " " + currency;
     }
 }

@@ -37,10 +37,19 @@ public class CurrencyTest {
     }
 
     @Test
+    public void testDifferentClassEquality() throws Exception {
+        // Test equality for different classes
+        String currency = "CHF";
+        assertTrue(new Money(5, currency).equals(new Franc(5, currency)));
+
+        currency = "USD";
+        assertTrue(new Money(5, currency).equals(new Dollar(5, currency)));
+    }
+
+    @Test
     public void testCurrency() throws Exception {
         // For now represent currency with String
         assertEquals("USD", Money.dollar(1).currency());
         assertEquals("CHF", Money.franc(1).currency());
-
     }
 }
