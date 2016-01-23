@@ -8,8 +8,9 @@ public interface Expression {
     /**
      * Reduce this expression to the selected currency
      *
-     * @param currency Currency of the result Money
+     * @param bank Bank to get the currency from
+     * @param toCurrency Currency of the result Money
      * @return Money representing the result of the expression
      */
-    Money reduce(String currency);
+    Money reduce(Bank bank, String toCurrency);
 }
