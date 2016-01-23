@@ -31,7 +31,7 @@ public class Money implements Expression {
     }
 
     Expression plus(Money toAdd) {
-        return new Money(amount + toAdd.amount, currency);
+        return new Sum(this, toAdd);
     }
 
     String currency() {
@@ -41,5 +41,10 @@ public class Money implements Expression {
     @Override
     public String toString() {
         return amount + " " + currency;
+    }
+
+    @Override
+    public Money reduce(String currency) {
+        return this;
     }
 }

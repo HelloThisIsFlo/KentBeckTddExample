@@ -34,9 +34,6 @@ public class MoneyTest {
 
     @Test
     public void testSimpleAddition() throws Exception {
-
-//        Money.dollar(5).plus(Money.dollar(5));
-
         Money five = Money.dollar(5);
         Expression sum = five.plus(five);
 
@@ -45,5 +42,32 @@ public class MoneyTest {
         Money reduced = bank.reduce(sum, "USD");
 
         assertEquals(Money.dollar(10), reduced);
+    }
+
+    @Test
+    public void testPlusReturnsSum() throws Exception {
+        Money five = Money.dollar(5);
+        Expression result = five.plus(five);
+        Sum sum = (Sum) result;
+        assertEquals(five, sum.first);
+        assertEquals(five, sum.second);
+    }
+
+    @Test
+    public void testReduceSum() throws Exception {
+        Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
+
+        // Reduce the sum
+        Bank bank = new Bank();
+        Money result = bank.reduce(sum, "USD");
+        assertEquals(Money.dollar(7), result);
+    }
+
+    @Test
+    public void testReduceMoney() throws Exception {
+        Bank bank = new Bank();
+        Money reduced = bank.reduce(Money.dollar(3), "USD");
+        assertEquals(Money.dollar(3), reduced);
+
     }
 }
