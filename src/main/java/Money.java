@@ -21,6 +21,8 @@ public class Money implements Expression {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Money)) return false;
+
         Money money = (Money) obj;
         return amount == money.amount
                 && currency().equals(money.currency());

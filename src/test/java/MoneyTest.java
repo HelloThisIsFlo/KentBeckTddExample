@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 /**
@@ -18,6 +20,7 @@ public class MoneyTest {
 
         // Set up the bank
         bank.addRate("CHF", "USD", 2);
+        bank.addRate("CHF", null, 2);
     }
 
     @Test
@@ -35,6 +38,17 @@ public class MoneyTest {
 
         // Test equality Dollar & Francs
         assertFalse(Money.franc(5).equals(Money.dollar(5)));
+    }
+
+    @Test
+    public void testEqualityNull() throws Exception {
+        assertFalse(Money.dollar(4).equals(null));
+    }
+
+    @Test
+    public void testEqualityObject() throws Exception {
+        assertFalse(Money.dollar(43).equals(new ArrayList<String>()));
+
     }
 
     @Test

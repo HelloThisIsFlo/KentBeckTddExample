@@ -17,13 +17,22 @@ public class Bank {
 
         @Override
         public boolean equals(Object o) {
-            PairCurrency pair = (PairCurrency) o;
-            return fromCurrency.equals(pair.fromCurrency) && toCurrency.equals(pair.toCurrency);
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            PairCurrency that = (PairCurrency) o;
+
+            if (fromCurrency != null ? !fromCurrency.equals(that.fromCurrency) : that.fromCurrency != null)
+                return false;
+            return toCurrency != null ? toCurrency.equals(that.toCurrency) : that.toCurrency == null;
+
         }
 
         @Override
         public int hashCode() {
-            return 0;
+            int result = fromCurrency != null ? fromCurrency.hashCode() : 0;
+            result = 31 * result + (toCurrency != null ? toCurrency.hashCode() : 0);
+            return result;
         }
     }
 
@@ -59,5 +68,21 @@ public class Bank {
         } else {
             return rates.get(new PairCurrency(fromCurrency, toCurrency));
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Bank bank = (Bank) o;
+
+        return rates != null ? rates.equals(bank.rates) : bank.rates == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }
